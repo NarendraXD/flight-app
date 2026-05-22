@@ -1,36 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ✈️ FlightApp — Flight Management Web App
 
-## Getting Started
+A full-stack flight booking web application built with Next.js 14, Supabase, and Zustand.
 
-First, run the development server:
+## 🔗 Live Demo
+[https://flight-app-gules-beta.vercel.app/]
 
+## 🧪 Test Account
+- Email: test@test.com
+- Password: test1234
+
+## 🛠️ Tech Stack
+- **Frontend & API:** Next.js 14 (App Router)
+- **Database & Auth:** Supabase (PostgreSQL + Auth + Realtime)
+- **State Management:** Zustand with persist middleware
+- **Styling:** Tailwind CSS
+
+## 🚀 Local Setup
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/NarendraXD/flight-app.git
+cd flight-app
+Install dependencies
+Bash
+Create .env.local from example
+Bash
+Fill in your Supabase credentials in .env.local
+Run the development server
+Bash
+🗄️ Supabase Setup
+Create a new Supabase project
+Run migration files in order from /supabase/migrations/
+01_tables.sql — creates all 5 tables
+02_rls.sql — enables Row Level Security
+03_functions.sql — seat lock RPC + cancellation trigger
+Run the seed script to populate flights and seats
+Disable email confirmation in Authentication settings
+📦 Zustand Store Structure
+useFlightStore
+Manages the entire booking flow:
+searchQuery — origin, destination, date, passenger count
+selectedFlight — the flight the user picked
+selectedSeat — the seat the user selected
+currentStep — tracks booking progress
+passengerForm — passenger details
+Persistence: Uses partialize to exclude passport_no from localStorage for security.
+Reset: resetStore() is called on booking cancellation and logout.
+useUserStore
+Manages authentication:
+session — Supabase auth session
+cachedBookings — user's bookings
+Persistence: Only the session token is persisted, not full booking data.
+🏗️ Key Features
+Seat Lock RPC — prevents double-booking using PostgreSQL FOR UPDATE lock
+Cancellation Trigger — DB-level trigger blocks cancellations within 2 hours of departure
+Realtime Seat Updates — Supabase Realtime syncs seat availability live
+Row Level Security — users can only access their own bookings
+⚠️ Trade-offs & Known Limitations
+PWA bonus task not implemented due to time constraints
+Reschedule does not reassign seat on new flight
+No email notifications for booking confirmation
