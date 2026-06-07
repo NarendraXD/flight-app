@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useFlightStore } from '@/store/useFlightStore'
+import PriceCalendar from '@/app/components/PriceCalendar'
 
 const CITIES = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Hyderabad']
 
@@ -140,7 +141,15 @@ export default function SearchPage() {
                 </button>
               </div>
             </div>
-
+            {/* Price Calendar */}
+{origin && destination && (
+  <PriceCalendar
+    origin={origin}
+    destination={destination}
+    selectedDate={date}
+    onSelectDate={(d) => setDate(d)}
+  />
+)}
             <button
               onClick={handleSearch}
               className="w-full bg-blue-500 hover:bg-blue-400 text-white py-4 rounded-2xl font-semibold transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:shadow-blue-500/30 mt-2"
