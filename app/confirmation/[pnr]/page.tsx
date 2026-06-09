@@ -5,7 +5,7 @@ import { useRouter, useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { useFlightStore } from '@/store/useFlightStore'
 import DownloadTicket from '@/app/components/DownloadTicket'
-
+import TravelGuide from '@/app/components/TravelGuide'
 export default function ConfirmationPage() {
   const router = useRouter()
   const params = useParams()
@@ -134,7 +134,14 @@ export default function ConfirmationPage() {
             </div>
           </div>
         )}
-
+{/* Travel Guide */}
+{selectedFlight && (
+  <div className="mb-4">
+    <TravelGuide
+     city={selectedFlight.destination}
+     flightDate= {selectedFlight.departs_at.split('T')[0]} />
+  </div>
+)}
         {/* Buttons */}
         <div className="space-y-3">
           {booking && selectedFlight && selectedSeat && booking.passengers?.[0] && (
